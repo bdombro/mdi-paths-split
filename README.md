@@ -22,38 +22,71 @@ The name translates to PascalCase in `mdi-paths-split`.
 
 Also it's possible to import with an alias. You can find them on the detail page of the respective icon.
 
-Here is an example of a Preact/React component. *Notice how each icon is code-split and lazy loaded with an empty placeholder!!!!*
+Simplest Usage:
+
+```javascript
+import HomePath from 'mdi-paths-split/Home'
+export function HomeIcon ({ color = 'currentColor', size = 24, ...props }) {
+  const className = 'mdi-icon ' + (props.class || props.className || '');
+  return (
+    <svg {...props} class={className} width={size} height={size} fill={color} viewBox="0 0 24 24">
+      <path d={HomePath} />
+    </svg>
+  );
+}
+```
+
+With Lazy-Loading/Code-Splitting and blank placeholder:
+
+```javascript
+export function HomeIcon ({ color = 'currentColor', size = 24, ...props }) {
+  const className = 'mdi-icon ' + (props.class || props.className || '');
+  const [path, setPath] = useState('')
+  useEffect(() => { 
+    import('mdi-paths-split/Home'))().then((module: any) => setPath(module.default)) 
+  }, [])
+
+  return (
+    <svg {...props} class={className} width={size} height={size} fill={color} viewBox="0 0 24 24">
+      <path d={path} />
+    </svg>
+  );
+}
+```
+
+And here is how I use it. I made a helper component and factory to make it crazy easy to add more icons while simultaneously reducing line-count per-icon. *Notice how each icon is code-split and lazy loaded with an empty placeholder!!!!*
 
 ```typescript
-import {ReactLogo, Counter, Home} from '~/components/Icons'
+import {Account, Counter, Home} from '~/components/Icons'
 
 export default function HeaderLogo() {
     return <div>
-        <ReactLogo />
+        <Account />
         <Counter />
         <Home />
     </div>
 }
 ```
 
-Source of `~/components/Icons`:
+Source of helper `~/components/Icons`:
 
 ```typescript
-import { FunctionalComponent, h } from 'preact';
+import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
-const IconFactory: IconFactoryType = (lazyPath) => (props: IconProps) => <LazySvg lazyPath={lazyPath} {...props} />
+export const Account =   I(() => import('mdi-paths-split/CardAccountDetailsOutline'))
+export const Counter =   I(() => import('mdi-paths-split/Counter'))
+export const Home =      I(() => import('mdi-paths-split/HomeOutline'))
+// ... add as many as you want
 
-export const React = IconFactory(() => import('mdi-paths-split/React'))
-export const Counter = IconFactory(() => import('mdi-paths-split/Counter'))
-export const Home = IconFactory(() => import('mdi-paths-split/HomeOutline'))
 
+function I(lazyPath: LazyPathType) { // aka Icon Factory, shortened to be easier to read
+  return (props: IconProps) => <LazySvg lazyPath={lazyPath} {...props} />
+}
 type IconProps = Omit<LazySvgProps, 'lazyPath'>
-type IconType = FunctionalComponent<IconProps>;
-type IconFactoryType = (lazyPath: () => Promise<any>) => IconType
 
 
-export const LazySvg: LazySvgType = ({ lazyPath, color = 'currentColor', size = 24, ...props }) => {
+function LazySvg({ lazyPath, color = 'currentColor', size = 24, ...props }: LazySvgProps) {
   const className = 'mdi-icon ' + (props.class || props.className || '');
   const [path, setPath] = useState('')
   useEffect(() => { lazyPath().then((module: any) => setPath(module.default)) }, [])
@@ -64,15 +97,15 @@ export const LazySvg: LazySvgType = ({ lazyPath, color = 'currentColor', size = 
     </svg>
   );
 };
+type LazyPathType = () => Promise<any>
 interface LazySvgProps {
   color?: string
   size?: number | string
   class?: string
   className?: string
   children?: never
-  lazyPath: () => Promise<any>
+  lazyPath: LazyPathType
 }
-type LazySvgType = FunctionalComponent<LazySvgProps>;
 ```
 
 ## References
