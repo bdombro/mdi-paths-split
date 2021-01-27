@@ -5,6 +5,7 @@
 - Each modules is named to match the name in [https://materialdesignicons.com](https://materialdesignicons.com), so easy to find
 - Unlike most libraries, this one includes all the aliases found in [https://materialdesignicons.com](https://materialdesignicons.com)
 - By splitting the paths into different files, lazy loading is easy and possible!
+- Version is pinned to the version of `@mdi/svg` this was generated from
 
 ## Installation
 
