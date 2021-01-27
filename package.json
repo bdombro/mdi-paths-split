@@ -1,0 +1,30 @@
+{
+  "name": "mdi-paths-split",
+  "description": "Material Design Icon paths Javascript",
+  "keywords": [
+    "mdi",
+    "preact",
+    "material",
+    "design",
+    "icons"
+  ],
+  "version": "5.9.55",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bdombro/mdi-paths-split.git"
+  },
+  "author": "Brian Dombrowski <bdombro@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bdombro/mdi-paths-split/issues"
+  },
+  "homepage": "https://github.com/bdombro/mdi-paths-split",
+  "scripts": {
+    "prepublishOnly": "yarn build",
+    "clean": "find . -maxdepth 1 -name \"*.js\" -delete && find . -maxdepth 1 -name \"*.ts\" -delete",
+    "build": "yarn clean && node scripts/generate.js"
+  },
+  "devDependencies": {
+    "@mdi/svg": "5.9.55"
+  }
+}
