@@ -1,5 +1,7 @@
 # mdi-paths [![npm package](https://img.shields.io/npm/v/mdi-paths-split.svg?style=flat-square)](https://npmjs.org/package/mdi-paths-split) [![Material Design Icons version](https://img.shields.io/badge/mdi-v5.9.55-blue.svg?style=flat-square)](https://materialdesignicons.com)
 
+STATUS: Moved to [@slimr/mdi-paths](https://npmjs.org/package/@slimr/mdi-paths)
+
 [Material Design Icon](https://materialdesignicons.com) paths for any TS/JS project, packaged as single components.
 
 - Each modules is named to match the name in [https://materialdesignicons.com](https://materialdesignicons.com), so easy to find

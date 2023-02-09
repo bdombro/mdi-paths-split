@@ -8,7 +8,7 @@
     "design",
     "icons"
   ],
-  "version": "5.9.55",
+  "version": "5.9.57",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/bdombro/mdi-paths-split.git"
@@ -20,9 +20,10 @@
   },
   "homepage": "https://github.com/bdombro/mdi-paths-split",
   "scripts": {
-    "prepublishOnly": "yarn build",
-    "clean": "find . -maxdepth 1 -name \"*.js\" -delete && find . -maxdepth 1 -name \"*.ts\" -delete",
-    "build": "yarn clean && node scripts/generate.js"
+    "prepack": "npm run build && npm version patch --no-git-tag-version",
+    "postpublish": "npm run clean",
+    "clean": "find -E . -maxdepth 1 -regex '.*(\\.js|\\.ts)' -delete",
+    "build": "npm run clean && node scripts/generate.js"
   },
   "devDependencies": {
     "@mdi/svg": "5.9.55"
